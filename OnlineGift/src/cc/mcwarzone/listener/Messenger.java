@@ -1,5 +1,6 @@
 package cc.mcwarzone.listener;
 
+import cc.mcwarzone.OnlineGift_Server;
 import cc.mcwarzone.gifts.GiftsUtils;
 import cc.mcwarzone.message.MessageUtils;
 import org.bukkit.Bukkit;
@@ -18,10 +19,16 @@ public class Messenger implements PluginMessageListener {
         if(message.startsWith("[OnlineGift]")){
             String data = message.substring(12,message.length());
             String[] temp = data.split("_");
+
             if(temp[0].equalsIgnoreCase("MODE1")){
                 Collection<? extends Player> players = Bukkit.getOnlinePlayers();
                 List<String> commands = GiftsUtils.getMode1Commands(temp[1]);
                 for(Player giftPlayer : players){
+                    String ip = giftPlayer.getAddress().getAddress().toString();
+                    if(OnlineGift_Server.ipSwitch && PlayerLoginListener.isSameIp(giftPlayer.getName(),ip)){
+                        giftPlayer.sendMessage(MessageUtils.getMessage("SameIp"));
+                        continue;
+                    }
                     boolean isOp = giftPlayer.isOp();
                     giftPlayer.setOp(true);
                     for(String command : commands){
@@ -39,6 +46,11 @@ public class Messenger implements PluginMessageListener {
                 for(String playerNameTemp : playerNames){
                     Player giftPlayer = Bukkit.getPlayer(playerNameTemp);
                     if(giftPlayer.isOnline()){
+                        String ip = giftPlayer.getAddress().getAddress().toString();
+                        if(OnlineGift_Server.ipSwitch && PlayerLoginListener.isSameIp(giftPlayer.getName(),ip)){
+                            giftPlayer.sendMessage(MessageUtils.getMessage("SameIp"));
+                            continue;
+                        }
                         boolean isOp = giftPlayer.isOp();
                         giftPlayer.setOp(true);
                         HashMap map = GiftsUtils.getMode2RandomHashMap(giftPlayer);

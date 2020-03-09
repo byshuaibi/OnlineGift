@@ -3,7 +3,9 @@ package cc.mcwarzone;
 import cc.mcwarzone.command.GiftsCommands;
 import cc.mcwarzone.gifts.GiftsUtils;
 import cc.mcwarzone.listener.Messenger;
+import cc.mcwarzone.listener.PlayerLoginListener;
 import cc.mcwarzone.message.MessageUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,10 +17,12 @@ import java.util.List;
 
 public class OnlineGift_Server extends JavaPlugin {
     public static String root;
+    public static boolean ipSwitch;
     @Override
     public void onEnable() {
         root = this.getDataFolder().getAbsolutePath();
         this.saveDefaultConfig();
+        Bukkit.getPluginManager().registerEvents(new PlayerLoginListener(),this);
         update();
         this.getCommand("cyog").setExecutor(new GiftsCommands());
         this.getServer().getMessenger().registerIncomingPluginChannel(this,"CYOG",new Messenger());
@@ -49,6 +53,7 @@ public class OnlineGift_Server extends JavaPlugin {
             GiftsUtils.putMODE2Map(path,hashMap);
         }
         GiftsUtils.remakeMODE2Map();
+        ipSwitch = config.getBoolean("ProtectSameIp");
     }
     public static FileConfiguration load(File file) {
         if (!file.exists()) {
