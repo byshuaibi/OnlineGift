@@ -1,0 +1,28 @@
+#Protect more user.
+ProtectSameIp: true
+#Mode1
+Pick1Gift:
+  10ren:
+    commands:
+      - "give <playerName> 1 64"
+      - "eco give <playerName> 200"
+  20ren:
+    commands:
+      - "give <playerName> 2 64"
+      - "eco give <playerName> 400"
+
+#Mode2
+Pick2Gift:
+  1:
+    commands:
+      - eco give <playerName> 200
+    message:
+      player: "Get !"
+      server: "Player <playerName> get !"
+    chance: 20
+    isServerSay: true
+
+Messages:
+  Prefix: "&8[&6OnlineGift&8] &a >>> "
+  PlayerGetGift: "&aYou get a gift!."
+  SameIp: "&cA same ip is online in server."

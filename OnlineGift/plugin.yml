@@ -1,0 +1,6 @@
+name: OnlineGift
+main: cc.mcwarzone.OnlineGift_Server
+version: 1.0
+author: laoliu
+commands:
+  cyog:
